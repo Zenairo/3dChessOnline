@@ -51,12 +51,14 @@ var loadWorld = function(boards) {
     animate();
 
     function init() {
-        for (var i = 0; i < 64; i++) BoardPieces[i] = null;
-
-        var w = window.innerWidth;
-        var h = window.innerHeight;
 
         scene = new THREE.Scene();
+
+        container = document.getElementById('container');
+        document.body.appendChild( container );
+
+        var w = container.clientWidth;
+        var h = container.clientHeight;
 
         camera = new THREE.PerspectiveCamera(60, w / h, 1, 5000);
         camera.position.x = 0;
@@ -69,8 +71,7 @@ var loadWorld = function(boards) {
         renderer.setSize(w, h);
         renderer.shadowMap.enabled = true;
 
-        cameraControls = new THREE.OrbitControls(camera);
-        cameraControls.addEventListener( 'change', render );
+        container.appendChild(renderer.domElement);
 
         createChessBoard();
         loadPieces();
@@ -100,14 +101,13 @@ var loadWorld = function(boards) {
             scene.add(plane);
         }
 
-        document.addEventListener('mousemove', onDocumentMouseMove, false);
-        document.addEventListener('mousedown', onDocumentMouseDown, false);
-        document.addEventListener('mouseup', onDocumentMouseUp, false);
+        container.addEventListener('mousemove', onDocumentMouseMove, false);
+        container.addEventListener('mousedown', onDocumentMouseDown, false);
+        container.addEventListener('mouseup', onDocumentMouseUp, false);
         window.addEventListener( 'resize', onWindowResize, false );
 
-        container = document.getElementById('container');
-        container.appendChild(renderer.domElement);
-        document.body.appendChild( container );
+        cameraControls = new THREE.OrbitControls(camera, container);
+        cameraControls.addEventListener( 'change', render );
     }
 
     function createChessBoard() {
@@ -242,10 +242,13 @@ var loadWorld = function(boards) {
 
     function onWindowResize() {
 
-        camera.aspect = window.innerWidth / window.innerHeight;
+        var w = container.clientWidth;
+        var h = container.clientHeight;
+
+        camera.aspect = w / h;
         camera.updateProjectionMatrix();
 
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize( w, h );
 
     }
 
@@ -287,8 +290,12 @@ var loadWorld = function(boards) {
     }
 
     function onDocumentMouseMove(event) {
-        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-        mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+
+        var w = container.clientWidth;
+        var h = container.clientHeight;
+
+        mouse.x = ( event.clientX / w ) * 2 - 1;
+        mouse.y = -( event.clientY / h ) * 2 + 1;
 
         if (selectedobject != null) {
             var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
