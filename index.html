@@ -99,7 +99,7 @@
     <body>
     <div id="mess"><ul id="messages"></ul></div>
     <form action="" onsubmit="return sendMsg();">
-        <input id="m" autocomplete="off" onsubmit="return sendMsg();"/><button type="button" onclick="sendMsg();">Send</button>
+        <input id="m" autocomplete="off" onsubmit="return false"/><button type="button" onsubmit="return sendMsg()" onclick="return sendMsg();">Send</button>
     </form>
     </body>
 </div>
@@ -147,7 +147,8 @@
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
         return false;
-    };
+    }
+
     socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
         $('#mess').get(0).scrollTop = $('#mess').get(0).scrollHeight;
