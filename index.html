@@ -142,7 +142,7 @@
         removePiece(pieceName);
     });
 
-    //Chat Handler, couldn't get the damn divs to work properly so it's not used...
+    //Chat Handler
     $('form').submit(function(){
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
@@ -150,7 +150,7 @@
     });
     socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
-        $('#mess').get(0).scrollTop = $('#mess').get(0).scrollHeight;
+        //$('#mess').get(0).scrollTop = $('#mess').get(0).scrollHeight;
     });
 
 </script>
