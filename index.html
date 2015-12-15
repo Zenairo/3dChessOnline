@@ -98,7 +98,7 @@
     </head>
     <body>
     <div id="mess"><ul id="messages"></ul></div>
-    <form action="" onsubmit="return false">
+    <form action="" onsubmit="return sendMsg();">
         <input id="m" autocomplete="off"/><button>Send</button>
     </form>
     </body>
@@ -143,11 +143,16 @@
     });
 
     //Chat Handler
-    $('form').submit(function(){
+    /*$('form').submit(function(){
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
         return false;
-    });
+    });*/
+    function sendMsg(){
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+    }
     socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
         $('#mess').get(0).scrollTop = $('#mess').get(0).scrollHeight;
