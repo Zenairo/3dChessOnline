@@ -87,6 +87,6 @@ io.on('connection', function(socket){
 var port = process.env.PORT || 8080;
 var ip_address = process.env.IP_ADDRESS || '127.0.0.1';
 
-http.listen(port, ip_address, function(){
+http.listen(port, function(){
     console.log( "Listening on " + ip_address + ", server_port " + port );
 });
