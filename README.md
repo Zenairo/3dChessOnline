@@ -11,7 +11,7 @@ Notes:
 
 
 
-First user to join is assigned white.
+First user to join is assigned white and prompted to select how many boards to play on.
 
 Second user to join is assigned black.
 
